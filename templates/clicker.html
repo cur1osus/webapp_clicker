@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Telegram WebApp Clicker</title>
+    <link rel="stylesheet" href="/static/css/base.css">
+    <link rel="stylesheet" href="/static/css/collection.css">
+    <link rel="stylesheet" href="/static/css/responsive.css">
+    <link rel="stylesheet" href="/static/css/clicker.css">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="/static/js/base.js" defer></script>
+    <script src="/static/js/save.js" defer></script>
+    <script src="/static/js/clicker.js" defer></script>
+    <script src="/static/js/collection.js" defer></script>
+    <script src="/static/js/upgrades.js" defer></script>
+    <script src="/static/js/leaderboard.js" defer></script>
+    <script src="/static/js/chest.js" defer></script>
+    <script src="/static/js/bootstrap.js" defer></script>
+</head>
+<body>
+<div class="card">
+    <div class="header">
+        <h1>Галактический кликер</h1>
+        <p>Собирай энергию и астральные кристаллы. Улучшай станцию, чтобы кликать ещё быстрее и получать пассивный доход.</p>
+    </div>
+
+    <div class="tab-panel main" data-panel="clicker">
+        <div class="level-info">
+            <span id="levelName">Уровень: Новичок</span>
+            <span id="levelGoal">До перехода: 120</span>
+        </div>
+
+        <div class="counter-wrapper">
+            <div id="counterValue" class="counter-value">0</div>
+            <div class="clicker-button-wrapper">
+              <button id="clickerButton" class="clicker-button" type="button" aria-label="Совершить клик">
+                  <img id="clickerButtonImage" class="clicker-button-image" src="" alt="">
+              </button>
+            </div>
+        </div>
+
+        <div class="progress">
+            <div id="progressBar" class="progress-bar"></div>
+        </div>
+
+        <div class="stats">
+            <span id="energyLabel">Энергия: 0%</span>
+            <span id="streakLabel" class="streak">Комбо x1</span>
+            <span id="currencyInline" class="currency-inline">0 ✦</span>
+        </div>
+    </div>
+
+    <div class="tab-panel is-hidden" data-panel="upgrades" data-scrollable="true">
+        <div class="currency-box">
+            <div class="currency-main">
+                <span id="currencyValue">0</span>
+                <span class="currency-symbol">✦</span>
+            </div>
+            <p class="currency-hint">Астральные кристаллы выдаются за клики, комбо и повышение уровня. Трать их на улучшения станции.</p>
+            <p id="passiveRate" class="currency-passive">Пассивный доход: отсутствует</p>
+        </div>
+        <div class="upgrade-list" id="upgradeList"></div>
+    </div>
+
+    <div class="tab-panel is-hidden" data-panel="leaderboard" data-scrollable="true">
+        <div class="leaderboard-box">
+            <div class="leaderboard-header">
+                <h2>Таблица лидеров</h2>
+                <button id="leaderboardRefresh" class="leaderboard-refresh" type="button">Обновить</button>
+            </div>
+            <p class="leaderboard-hint">Лучшие результаты по набранным очкам. Данные синхронизируются при сохранении прогресса.</p>
+            <div id="leaderboardStatus" class="leaderboard-status" hidden></div>
+            <ol class="leaderboard-list" id="leaderboardList" hidden></ol>
+        </div>
+    </div>
+
+    <div class="tab-panel is-hidden" data-panel="collection" data-scrollable="true">
+        <section class="skin-section">
+            <header class="section-header">
+                <h2>Тап-скины</h2>
+                <p>Выбирай внешний вид тапалки и демонстрируй стиль.</p>
+            </header>
+            <div class="current-skin">
+                <div class="current-skin-preview">
+                    <img id="currentSkinPreview" alt="Текущий скин" src="">
+                </div>
+                <div class="current-skin-meta" id="currentSkinMeta"></div>
+            </div>
+            <div class="skin-list" id="ownedSkinsList" aria-live="polite"></div>
+        </section>
+
+        <section class="chest-section">
+            <header class="section-header">
+                <h2>Сундуки</h2>
+                <p>Открывай сундуки, чтобы получить новые скины или усиления.</p>
+            </header>
+            <div class="chest-list" id="chestList"></div>
+        </section>
+    </div>
+    <div class="tab-bar scrollable">
+        <button class="tab-button is-active" type="button" data-tab-button="clicker">Кликер</button>
+        <button class="tab-button" type="button" data-tab-button="upgrades">Улучшения</button>
+        <button class="tab-button" type="button" data-tab-button="leaderboard">Лидеры</button>
+        <button class="tab-button" type="button" data-tab-button="collection">Коллекция</button>
+    </div>
+</div>
+
+<div id="chestOverlay" class="chest-overlay" hidden aria-hidden="true">
+    <div class="chest-overlay-backdrop" data-overlay-close="true"></div>
+    <div class="chest-overlay-content" role="dialog" aria-modal="true">
+        <div class="chest-overlay-header">
+            <span id="chestOverlayChestName" class="chest-overlay-chest-name"></span>
+            <button id="chestOverlayClose" class="chest-overlay-close" type="button" aria-label="Закрыть награду">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <div class="chest-overlay-body">
+            <div class="chest-overlay-visual" aria-hidden="true" id="chestOverlayVisual">
+                <div class="chest-hero">
+                    <span class="chest-hero-glow"></span>
+                    <span class="chest-hero-base"></span>
+                    <span class="chest-hero-lid"></span>
+                    <span class="chest-hero-lock"></span>
+                    <span class="chest-hero-sparks"></span>
+                </div>
+            </div>
+            <div id="chestOverlayItems" class="chest-overlay-items" aria-live="polite"></div>
+            <p id="chestOverlayMessage" class="chest-overlay-message"></p>
+            <span id="chestOverlayLabel" class="chest-overlay-label" hidden></span>
+            <button id="chestOverlayAction" class="chest-overlay-action" type="button">Продолжить</button>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
