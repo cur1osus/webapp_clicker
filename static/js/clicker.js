@@ -192,4 +192,5 @@ function registerClick() {
   updateLevelIndicator();
   updateCombo();
   scheduleComboDelay();
+  scheduleSave()
 };
