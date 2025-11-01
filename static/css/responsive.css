@@ -1,70 +1,74 @@
-@media (max-width: 420px) {
-    .card {
-        padding: 24px 20px 28px;
-        border-radius: 24px;
-    }
-
-    .clicker-button {
-        width: 190px;
-        height: 190px;
-    }
-
-    .clicker-button-wrapper {
-        width: 100%;
-        justify-content: center;
-    }
-
-    .level-info {
-        flex-direction: column;
-        gap: 6px;
-        align-items: flex-start;
-    }
-
-    .tab-bar {
-        gap: 3px;
-        scroll-behavior: smooth;
-        scrollbar-width: none;
-        overflow-x: scroll;
-    }
-
-    .upgrade-card {
-        padding: 16px 18px;
-    }
-
-    .upgrade-card-footer {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .buy-button {
-        width: 100%;
-        text-align: center;
-    }
-
-    .current-skin {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .current-skin-preview {
-        width: 100%;
-        height: auto;
-        aspect-ratio: 1;
-    }
-
-    .skin-list {
-        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-    }
-
-    .chest-card {
-        padding: 14px;
-    }
-
-    .chest-card-footer {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
-    }
+@media (max-height: 750px) {
+  .tab-panel.main {
+    gap: 25px;
+  }
 }
 
+@media (max-width: 420px) {
+  .card {
+    padding: 24px 20px 28px;
+    border-radius: 24px;
+  }
 
+  .clicker-button {
+    width: 190px;
+    height: 190px;
+  }
+
+  .clicker-button-wrapper {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .level-info {
+    flex-direction: column;
+    gap: 6px;
+    align-items: flex-start;
+  }
+
+  .tab-bar {
+    gap: 3px;
+    scroll-behavior: smooth;
+    scrollbar-width: none;
+    overflow-x: scroll;
+  }
+
+  .upgrade-card {
+    padding: 16px 18px;
+  }
+
+  .upgrade-card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .buy-button {
+    width: 100%;
+    text-align: center;
+  }
+
+  .current-skin {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .current-skin-preview {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+  }
+
+  .skin-list {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
+
+  .chest-card {
+    padding: 14px;
+  }
+
+  .chest-card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
