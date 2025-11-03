@@ -35,7 +35,7 @@ const BASE_SCORE_MULTIPLIER = 1;
 const BASE_CURRENCY_PER_CLICK = 1;
 const BASE_LEVEL_REWARD = 50;
 const BASE_PASSIVE_PER_TICK = 0;
-const PASSIVE_TICK_MS = 5000;
+const PASSIVE_TICK_MS = 1000;
 
 const DEFAULT_SKIN_ID = "stardust_emblem";
 
@@ -147,9 +147,9 @@ const CHEST_DEFINITIONS = [
     costType: "free",
     costAmount: 0,
     rewards: [
-      { type: "skin", weight: 55, amount: 500 },
-      { type: "upgrade", weight: 30 },
-      { type: "currency", weight: 15, amount: 120 },
+      { type: "skin", weight: 5, amount: 500 },
+      { type: "upgrade", weight: 20 },
+      { type: "currency", weight: 75, amount: 200 },
     ],
     rewardRolls: [1, 2],
   },
@@ -158,27 +158,27 @@ const CHEST_DEFINITIONS = [
     name: "Кристальный контейнер",
     description: "Стабильный источник апгрейдов и шанс на новые облики за астральные кристаллы.",
     costType: "currency",
-    costAmount: 220,
+    costAmount: 500,
     rewards: [
-      { type: "skin", weight: 45, amount: 500 },
-      { type: "upgrade", weight: 35 },
-      { type: "currency", weight: 20, amount: 260 },
+      { type: "skin", weight: 10, amount: 500 },
+      { type: "upgrade", weight: 30 },
+      { type: "currency", weight: 60, amount: 300 },
     ],
     rewardRolls: [2, 3],
   },
-  {
-    id: "stellar_vault",
-    name: "Звёздный сейф",
-    description: "Премиальный сундук за Telegram Stars. Повышенные шансы на легендарные скины.",
-    costType: "stars",
-    costAmount: 3,
-    rewards: [
-      { type: "skin", weight: 60, amount: 500 },
-      { type: "upgrade", weight: 25 },
-      { type: "currency", weight: 15, amount: 420 },
-    ],
-    rewardRolls: [2, 3],
-  },
+  // {
+  //   id: "stellar_vault",
+  //   name: "Звёздный сейф",
+  //   description: "Премиальный сундук за Telegram Stars. Повышенные шансы на легендарные скины.",
+  //   costType: "stars",
+  //   costAmount: 3,
+  //   rewards: [
+  //     { type: "skin", weight: 60, amount: 500 },
+  //     { type: "upgrade", weight: 25 },
+  //     { type: "currency", weight: 15, amount: 420 },
+  //   ],
+  //   rewardRolls: [2, 3],
+  // },
 ];
 
 const CHEST_DEFINITION_MAP = new Map(CHEST_DEFINITIONS.map((definition) => [definition.id, definition]));
@@ -199,45 +199,38 @@ const modifiers = {
 
 const UPGRADE_DEFINITIONS = [
   {
-    id: "chrono_core",
-    name: "Импульсный стабилизатор",
-    description: "Увеличивает длительность окна комбо на 180 мс за уровень.",
-    baseCost: 160,
-    costGrowth: 1.75,
-  },
-  {
     id: "quantum_loop",
     name: "Квантовый контур",
-    description: "Увеличивает энергию одного клика на 15% за уровень.",
+    description: "Увеличивает получение очков за клик на 15% за уровень.",
     baseCost: 260,
-    costGrowth: 1.85,
+    costGrowth: 1.2,
   },
   {
     id: "stellar_magnet",
     name: "Звёздный магнит",
-    description: "Добавляет +1 ✦ за каждый клик за уровень.",
-    baseCost: 220,
+    description: "Добавляет +1 астральный кристал за каждый клик за уровень.",
+    baseCost: 100,
     costGrowth: 1.75,
   },
   {
     id: "dividend_protocol",
     name: "Дивидендный протокол",
-    description: "Каждый новый уровень приносит +75 ✦ за уровень улучшения.",
+    description: "Каждый новый уровень приносит +75 астральных кристалов за уровень улучшения.",
     baseCost: 340,
-    costGrowth: 1.8,
+    costGrowth: 1.1,
   },
   {
     id: "drone_fleet",
     name: "Флот дронов",
-    description: "Приносит 4 ✦ каждые 5 секунд за уровень.",
-    baseCost: 420,
-    costGrowth: 1.9,
+    description: "Приносит 20 астральных кристалов каждую секунду за уровень.",
+    baseCost: 500,
+    costGrowth: 1.6,
   },
   {
     id: "crown_of_combos",
     name: "Корона комбо",
     description: "Повышает максимальное комбо на 1 за уровень.",
-    baseCost: 280,
+    baseCost: 150,
     costGrowth: 1.8,
   },
   {
@@ -250,8 +243,8 @@ const UPGRADE_DEFINITIONS = [
   {
     id: "galactic_exchange",
     name: "Галактическая биржа",
-    description: "Увеличивает награду кристаллов за уровни на 10% + 15 ✦ за уровень.",
-    baseCost: 360,
+    description: "Увеличивает награду кристаллов за уровни на 10% + 15 астральных кристаллов за уровень.",
+    baseCost: 400,
     costGrowth: 1.85,
   },
 ];
@@ -313,6 +306,7 @@ let comboDelayTimeoutId = null;
 let heroDismissed = false;
 
 const API_ENDPOINT = "/api/clicker";
+const DB_ENDPOINT = "/api/database";
 
 const LEADERBOARD_ENDPOINT = "/api/leaderboard";
 const LEADERBOARD_REFRESH_MS = 60_000;

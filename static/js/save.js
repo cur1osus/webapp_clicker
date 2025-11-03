@@ -52,6 +52,11 @@ const flushSave = () => {
   saveTimeoutId = null;
   const currentProgress = buildCurrentProgress();
   const signature = signatureFromProgress(currentProgress);
+  const signatureLocalStorage = localStorage.getItem(LOCAL_PROGRESS_KEY);
+
+  if (!signatureLocalStorage || signature !== signatureLocalStorage) {
+    saveInLocalStorage(currentProgress);
+  }
 
   if (signature === lastSavedSignature) {
     return;

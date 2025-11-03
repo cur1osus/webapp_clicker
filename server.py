@@ -13,6 +13,7 @@ from bot.db.models import Base, User  # noqa
 BASE_DIR = Path(__file__).parent
 CLICKER_TEMPLATE_PATH = BASE_DIR / "templates" / "clicker.html"
 STATIC_DIR = BASE_DIR / "static"
+DB_VERSION = 1
 
 
 async def on_startup() -> None:
@@ -31,6 +32,18 @@ def load_clicker_markup() -> str:
 @app.get("/", response_class=HTMLResponse)
 async def index() -> HTMLResponse:
     return HTMLResponse(load_clicker_markup())
+
+
+@app.get("/api/database")
+async def check_database(
+    db_version: int | None = Query(default=None, ge=0),
+) -> Response:
+    if not db_version:
+        return Response(status_code=400)
+    if db_version != DB_VERSION:
+        return Response(status_code=400)
+
+    return Response(status_code=200)
 
 
 @app.get("/api/clicker")
@@ -61,6 +74,7 @@ async def load_clicker_result(
         "owned_skins": _,
         "active_skin": user.active_skin,
         "has_free_chest": user.has_free_chest,
+        "db_version": DB_VERSION,
     }
     return JSONResponse(progress)
 

@@ -22,8 +22,8 @@ const renderCurrency = () => {
   if (dom.passiveRate) {
     const passive = modifiers.passivePerTick;
     dom.passiveRate.textContent = passive > 0
-      ? `Пассивный доход (${CURRENCY_NAME}): +${formatNumber(passive)} ${CURRENCY_SYMBOL} / ${(PASSIVE_TICK_MS / 1000)}с`
-      : `Пассивный доход (${CURRENCY_NAME}): отсутствует`;
+      ? `Пассивный доход: +${formatNumber(passive)} ${CURRENCY_SYMBOL} / ${(PASSIVE_TICK_MS / 1000)}с`
+      : `Пассивный доход: отсутствует`;
   }
 };
 

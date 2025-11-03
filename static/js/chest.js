@@ -650,6 +650,7 @@ const attemptOpenChest = (chest, sourceButton = null) => {
 
   const rewards = resolveChestRewards(chest);
   renderChestResult(chest, rewards);
+  scheduleSave();
 
 
   // renderChests();

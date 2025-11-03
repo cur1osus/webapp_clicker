@@ -12,9 +12,25 @@ const loadInitialProgress = async () => {
     return;
   }
 
-  const params = new URLSearchParams({ user_id: String(userContext.id), username: userContext.username ?? "" });
+  progressLocalStorage = localStorage.getItem(LOCAL_PROGRESS_KEY);
+  db_version_from_local_storage = localStorage.getItem("db_version");
+  if (!progressLocalStorage || !db_version_from_local_storage) {
+    progress = {};
+  } else {
+    progress = JSON.parse(progressLocalStorage);
+    applyLoadedProgress(progress);
+  }
 
+  const params_to_version_db = new URLSearchParams({ db_version: db_version_from_local_storage ? db_version_from_local_storage : 0 });
   try {
+    const response_version_db = await fetch(`${DB_ENDPOINT}?${params_to_version_db.toString()}`, {
+      method: "GET"
+    });
+    if (response_version_db.ok) {
+      return;
+    }
+
+    const params = new URLSearchParams({ user_id: String(userContext.id), username: userContext.username ?? "" });
     const response = await fetch(`${API_ENDPOINT}?${params.toString()}`, {
       method: "GET",
       headers: { Accept: "application/json" },
@@ -32,6 +48,8 @@ const loadInitialProgress = async () => {
 
     const loaded_progress = await response.json();
     applyLoadedProgress(loaded_progress);
+    localStorage.setItem(LOCAL_PROGRESS_KEY, JSON.stringify(loaded_progress));
+    localStorage.setItem("db_version", Number.parseInt(loaded_progress.db_version));
   } catch (error) {
     console.warn("Не удалось загрузить прогресс:", error);
     const hasProgress =
